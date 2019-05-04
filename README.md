@@ -1,0 +1,2 @@
+# STimer
+STimer - seconds timer
