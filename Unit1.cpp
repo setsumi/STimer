@@ -2,8 +2,10 @@
 
 #include <vcl.h>
 #include <Registry.hpp>
+#include <DateUtils.hpp>
 #include <stdio.h>
 #include <Mmsystem.h>
+
 #pragma hdrstop
 
 #include "Unit1.h"
@@ -17,7 +19,8 @@ const wchar_t *gInactive = L"Inactive";
 const wchar_t *gFontFile = L"STimer.ttf";
 const wchar_t *gFontName = L"Symbola";
 
-int gCountdown = 0;
+int gCountdown = 0, gMode = 0;
+TDateTime gCountTime;
 
 //---------------------------------------------------------------------------
 int SaveResourceRawBin(LPCTSTR ResID, const wchar_t *FileName)
@@ -88,16 +91,29 @@ void TForm1::StopAlarm()
 //---------------------------------------------------------------------------
 void TForm1::StartStop()
 {
-	Label1->Caption = Edit1->Text;
-	if (Timer1->Enabled) {
+	if (Timer1->Enabled) // STOP
+	{
 		Timer1->Enabled = false;
 		Caption = gTitle;
 		Label1->Caption = gInactive;
-	} else {
-		gCountdown = UpDown1->Position;
-		Label1->Caption = Edit1->Text;
-		Caption = Label1->Caption;
-		Timer1->Enabled = true;
+	}
+	else  // START
+	{
+		gMode = PageControl1->TabIndex;
+		if (gMode == 0) // Seconds
+		{
+			gCountdown = UpDown1->Position;
+			Label1->Caption = Edit1->Text;
+			Caption = Label1->Caption;
+			Timer1->Enabled = true;
+		}
+		else if (gMode == 1) // Clock
+		{
+			gCountTime = DateTimePicker1->Time;
+			Label1->Caption = gCountTime.TimeString();
+			Caption = Label1->Caption;
+			Timer1->Enabled = true;
+		}
 	}
 }
 
@@ -112,21 +128,22 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 void __fastcall TForm1::Edit1KeyPress(TObject *Sender, wchar_t &Key)
 {
 	switch(Key) {
-		case VK_RETURN:
+		case VK_RETURN: // Enter - start or stop timer
 			Key = 0;
-			if (Timer2->Enabled) {
-				StopAlarm();
-			} else {
-				StartStop();
-			}
+			Label1Click(NULL);
 			break;
-		case VK_ESCAPE:
+		case VK_ESCAPE: // Esc - stop timer or minimize window
 			Key = 0;
 			if (Timer2->Enabled) {
 				StopAlarm();
 			} else {
 				WindowState = wsMinimized;
-      }
+			}
+			break;
+		case 20:  // Ctrl-T - toggle topmost
+			Key = 0;
+			btnTopmost->Down = !btnTopmost->Down;
+			btnTopmostClick(NULL);
 			break;
 	}
 }
@@ -135,14 +152,32 @@ void __fastcall TForm1::Edit1KeyPress(TObject *Sender, wchar_t &Key)
 void __fastcall TForm1::Timer1Timer(TObject *Sender)
 {
 	Timer1->Enabled = false;
-	gCountdown--;
-	Label1->Caption = IntToStr(gCountdown);
-	Caption = Label1->Caption;
-	if (gCountdown <= 0) {
-		SoundAlarm();
-	} else {
-		Timer1->Enabled = true;
+
+	if (gMode == 0) // Seconds
+	{
+		gCountdown--;
+		Label1->Caption = IntToStr(gCountdown);
+		Caption = Label1->Caption;
+		if (gCountdown <= 0) {
+			SoundAlarm();
+		} else {
+			Timer1->Enabled = true;
+		}
 	}
+	else if (gMode == 1) // Clock
+	{
+		gCountTime = IncSecond(gCountTime, -1);
+		Label1->Caption = gCountTime.TimeString();
+		Caption = Label1->Caption;
+		unsigned short hour, min, sec, msec;
+		gCountTime.DecodeTime(&hour, &min, &sec, &msec);
+		if (hour == 0 && min == 0 && sec == 0) {
+			SoundAlarm();
+		} else {
+			Timer1->Enabled = true;
+		}
+	}
+
 }
 
 //---------------------------------------------------------------------------
@@ -174,6 +209,9 @@ void TForm1::Save()
 {
 	TIniFile *ini = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
 	ini->WriteInteger(L"GENERAL", L"Interval", UpDown1->Position);
+	ini->WriteInteger(L"GENERAL", L"Topmost", btnTopmost->Down?1:0);
+	ini->WriteInteger(L"GENERAL", L"Mode", PageControl1->TabIndex);
+	ini->WriteString (L"GENERAL", L"Time", DateTimePicker1->Time.TimeString());
 	delete ini;
 }
 
@@ -182,18 +220,30 @@ void TForm1::Load()
 {
 	TIniFile *ini = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
 	UpDown1->Position = ini->ReadInteger(L"GENERAL", L"Interval", 5);
+	btnTopmost->Down = (ini->ReadInteger(L"GENERAL", L"Topmost", 0) != 0);
+	btnTopmostClick(NULL);
+	PageControl1->TabIndex = ini->ReadInteger(L"GENERAL", L"Mode", 0);
+	DateTimePicker1->Time = StrToTime(ini->ReadString(L"GENERAL", L"Time", L"00:00:05"));
 	delete ini;
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormCreate(TObject *Sender)
 {
-	Load();
+	LongTimeFormat = L"HH:mm:ss";
+	DateTimePicker1->Format = LongTimeFormat;
 
 	Caption = gTitle;
 	Label1->Caption = gInactive;
 	Hint = Edit1->Hint;
 	Label1->Hint = Hint;
+
+	Load();
+
+	if (PageControl1->TabIndex == 0)
+		Edit1->SetFocus();
+	else
+		DateTimePicker1->SetFocus();
 
 	// load font if necessary
 	if (Screen->Fonts->IndexOf(gFontName) == -1) {
@@ -209,4 +259,43 @@ void __fastcall TForm1::FormDestroy(TObject *Sender)
 	Save();
 }
 
+//---------------------------------------------------------------------------
+void __fastcall TForm1::btnTopmostClick(TObject *Sender)
+{
+	SetWindowPos(Handle, btnTopmost->Down?HWND_TOPMOST:HWND_NOTOPMOST, 0,0,0,0, SWP_NOMOVE|SWP_NOSIZE);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Label1Click(TObject *Sender)
+{
+	if (Timer2->Enabled) {
+		StopAlarm();
+	} else {
+		StartStop();
+	}
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TForm1::FormContextPopup(TObject *Sender, TPoint &MousePos, bool &Handled)
+{
+	Handled = true;
+	WindowState = wsMinimized;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TForm1::DateTimePicker1Enter(TObject *Sender)
+{
+	if (!DateTimePicker1->Tag)
+		Timer3->Enabled = true;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Timer3Timer(TObject *Sender)
+{
+	Timer3->Enabled = false;
+	DateTimePicker1->Tag = 1;
+	DateTimePicker1->Perform(WM_KEYDOWN, VK_LEFT, 0);
+	DateTimePicker1->Perform(WM_KEYUP, VK_LEFT, 0);
+}
+
+//---------------------------------------------------------------------------
 
