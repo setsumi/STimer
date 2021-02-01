@@ -51,6 +51,22 @@ object Form1: TForm1
     ParentFont = False
     OnClick = btnTopmostClick
   end
+  object lblOverdue: TLabel
+    Left = 134
+    Top = 131
+    Width = 165
+    Height = 42
+    Caption = 'lblOverdue'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = 42
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    Visible = False
+    OnClick = Label1Click
+    OnContextPopup = FormContextPopup
+  end
   object PageControl1: TPageControl
     Left = 8
     Top = 8
@@ -142,5 +158,11 @@ object Form1: TForm1
     OnTimer = Timer3Timer
     Left = 248
     Top = 8
+  end
+  object tmrOverdue: TTimer
+    Enabled = False
+    OnTimer = tmrOverdueTimer
+    Left = 196
+    Top = 160
   end
 end

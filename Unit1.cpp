@@ -21,6 +21,7 @@ const wchar_t *gFontName = L"Symbola";
 
 int gCountdown = 0, gMode = 0;
 TDateTime gCountTime;
+TDateTime gOverdueTime;
 
 //---------------------------------------------------------------------------
 int SaveResourceRawBin(LPCTSTR ResID, const wchar_t *FileName)
@@ -54,7 +55,7 @@ void TForm1::SoundAlarm()
 		Label1->Font->Name = gFontName;
 		Label1->Caption = L"\xD83D\xDD0A"; //Unicode Character "Speaker" (U+1F50A)
 	} else {
-		Label1->Caption = L"ALARM";
+		Label1->Caption = L"AL";
 	}
 
 	FLASHWINFO fo;
@@ -67,6 +68,13 @@ void TForm1::SoundAlarm()
 	Timer2->Tag = 0;
 	Timer2->Interval = 1;
 	Timer2->Enabled = true;
+
+	gOverdueTime = 0;
+	tmrOverdueTimer(NULL);
+	lblOverdue->Left = Label1->Left + Label1->Width + 10;
+	lblOverdue->Top = Label1->Top + (Label1->Height - lblOverdue->Height) / 2;
+	lblOverdue->Visible = true;
+	tmrOverdue->Enabled = true;
 }
 //---------------------------------------------------------------------------
 void TForm1::StopAlarm()
@@ -86,6 +94,9 @@ void TForm1::StopAlarm()
 	fo.hwnd = Handle;
 	fo.dwFlags = FLASHW_STOP;
 	FlashWindowEx(&fo);
+
+	tmrOverdue->Enabled = false;
+	lblOverdue->Visible = false;
 }
 
 //---------------------------------------------------------------------------
@@ -295,6 +306,14 @@ void __fastcall TForm1::Timer3Timer(TObject *Sender)
 	DateTimePicker1->Tag = 1;
 	DateTimePicker1->Perform(WM_KEYDOWN, VK_LEFT, 0);
 	DateTimePicker1->Perform(WM_KEYUP, VK_LEFT, 0);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TForm1::tmrOverdueTimer(TObject *Sender)
+{
+	Caption = String(L"ALARM - ") + gOverdueTime.TimeString();
+	lblOverdue->Caption = gOverdueTime.TimeString();
+	gOverdueTime = IncSecond(gOverdueTime, 1);
 }
 
 //---------------------------------------------------------------------------
