@@ -241,8 +241,8 @@ void TForm1::Load()
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormCreate(TObject *Sender)
 {
-	LongTimeFormat = L"HH:mm:ss";
-	DateTimePicker1->Format = LongTimeFormat;
+	FormatSettings.LongTimeFormat = L"HH:mm:ss";
+	DateTimePicker1->Format = FormatSettings.LongTimeFormat;
 
 	Caption = gTitle;
 	Label1->Caption = gInactive;
@@ -261,7 +261,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 		if (!FileExists(gFontFile))
 			SaveResourceRawBin(MAKEINTRESOURCE(1234), gFontFile);
 		AddFontResourceEx(gFontFile, FR_PRIVATE, NULL);
-		SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
+		PostMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
 	}
 }
 //---------------------------------------------------------------------------
