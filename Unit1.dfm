@@ -85,6 +85,10 @@ object Form1: TForm1
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Seconds'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Edit1: TEdit
         Left = 0
         Top = 3
@@ -119,6 +123,10 @@ object Form1: TForm1
     object TabSheet2: TTabSheet
       Caption = 'Clock'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object DateTimePicker1: TDateTimePicker
         Left = 0
         Top = 3

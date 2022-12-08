@@ -423,8 +423,8 @@ void __fastcall TForm1::TimerStartupTimer(TObject *Sender)
 	}
 	else if (!clock.IsEmpty())
 	{
-		PageControl1->TabIndex = 1;
 		DateTimePicker1->Time = StrToTime(clock);
+		PageControl1->TabIndex = 1;
 		Label1Click(NULL);
 	}
 }
