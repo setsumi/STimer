@@ -28,6 +28,7 @@ __published:	// IDE-managed Components
 	TTimer *Timer3;
 	TLabel *lblOverdue;
 	TTimer *tmrOverdue;
+	TTimer *TimerStartup;
 	void __fastcall Edit1KeyPress(TObject *Sender, wchar_t &Key);
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall Timer2Timer(TObject *Sender);
@@ -39,6 +40,8 @@ __published:	// IDE-managed Components
 	void __fastcall DateTimePicker1Enter(TObject *Sender);
 	void __fastcall Timer3Timer(TObject *Sender);
 	void __fastcall tmrOverdueTimer(TObject *Sender);
+	void __fastcall TimerStartupTimer(TObject *Sender);
+	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 
 private:	// User declarations
 	void SoundAlarm();
@@ -46,7 +49,12 @@ private:	// User declarations
 	void StartStop();
 	void Save();
 	void Load();
+	void ShowHelp();
 
+	void __fastcall WMSysCommand(TWMSysCommand &Message);
+	BEGIN_MESSAGE_MAP
+		MESSAGE_HANDLER(WM_SYSCOMMAND, TWMSysCommand, WMSysCommand)
+	END_MESSAGE_MAP(TForm)
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 };
@@ -54,3 +62,4 @@ public:		// User declarations
 extern PACKAGE TForm1 *Form1;
 //---------------------------------------------------------------------------
 #endif
+

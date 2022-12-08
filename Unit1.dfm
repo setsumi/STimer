@@ -12,11 +12,13 @@ object Form1: TForm1
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   ShowHint = True
   OnContextPopup = FormContextPopup
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -39,7 +41,7 @@ object Form1: TForm1
     Top = 135
     Width = 34
     Height = 57
-    Hint = 'Always on Top (Ctrl-T)'
+    Hint = 'Always on Top (Ctrl+T)'
     AllowAllUp = True
     GroupIndex = 1
     Caption = 'T'
@@ -72,7 +74,7 @@ object Form1: TForm1
     Top = 8
     Width = 289
     Height = 117
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16
@@ -83,19 +85,12 @@ object Form1: TForm1
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Seconds'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Edit1: TEdit
         Left = 0
         Top = 3
         Width = 265
         Height = 76
-        Hint = 
-          'Ctrl+Tab - switch page'#13#10#8592','#8594','#8593','#8595' - adjust interval'#13#10'Enter - start' +
-          '/stop timer, stop alarm'#13#10'Esc - minimize app, stop alarm'#13#10'Right C' +
-          'lick - minimize app'
+        Hint = 'F1 - help'
         AutoSelect = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -147,20 +142,20 @@ object Form1: TForm1
   object Timer1: TTimer
     Enabled = False
     OnTimer = Timer1Timer
-    Left = 176
+    Left = 144
     Top = 8
   end
   object Timer2: TTimer
     Enabled = False
     OnTimer = Timer2Timer
-    Left = 212
+    Left = 180
     Top = 8
   end
   object Timer3: TTimer
     Enabled = False
     Interval = 1
     OnTimer = Timer3Timer
-    Left = 248
+    Left = 216
     Top = 8
   end
   object tmrOverdue: TTimer
@@ -168,5 +163,11 @@ object Form1: TForm1
     OnTimer = tmrOverdueTimer
     Left = 196
     Top = 160
+  end
+  object TimerStartup: TTimer
+    Interval = 50
+    OnTimer = TimerStartupTimer
+    Left = 264
+    Top = 8
   end
 end
