@@ -2,6 +2,10 @@
 
 Seconds and clock timer GUI app for Windows.
 
+## Download
+
+https://github.com/setsumi/STimer/releases
+
 ## Screenshot
 
 ![screenshot](https://setsumi.github.io/STimer/STimer-v1.5.png)
