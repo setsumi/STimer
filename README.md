@@ -1,9 +1,12 @@
 # STimer
-STimer - seconds timer
 
+Seconds and clock timer GUI app for Windows.
+
+## Screenshot
 
 ![screenshot](https://setsumi.github.io/STimer/STimer-v1.5.png)
 
+## Help
 
 ```
 Command line options:
