@@ -50,6 +50,7 @@ private:	// User declarations
 	void Save();
 	void Load();
 	void ShowHelp();
+    void ResetIdleLabel();
 
 	void __fastcall WMSysCommand(TWMSysCommand &Message);
 	BEGIN_MESSAGE_MAP

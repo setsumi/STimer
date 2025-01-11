@@ -58,6 +58,7 @@ void TForm1::SoundAlarm()
 {
 	Caption = L"ALARM";
 	Label1->Visible = false;
+	Label1->AutoSize = true;
 	if (Screen->Fonts->IndexOf(gFontName) != -1)
 	{
 		Label1->Font->Name = gFontName;
@@ -94,6 +95,7 @@ void TForm1::StopAlarm()
 	PlaySound(NULL, 0, 0); // stop sound immediately
 	Caption = gTitle;
 	Label1->Visible = false;
+	ResetIdleLabel();
 	if (Screen->Fonts->IndexOf("Symbola") != -1)
 		Label1->Font->Name = L"Tahoma";
 	Label1->Caption = gInactive;
@@ -256,6 +258,7 @@ void TForm1::Load()
 	btnTopmostClick(NULL);
 	PageControl1->TabIndex = ini->ReadInteger(L"GENERAL", L"Mode", 0);
 	DateTimePicker1->Time = StrToTime(ini->ReadString(L"GENERAL", L"Time", L"00:00:05"));
+    ResetIdleLabel();
 	delete ini;
 }
 
@@ -439,6 +442,13 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shif
 		ShowHelp();
 		break;
 	}
+}
+
+// ---------------------------------------------------------------------------
+void TForm1::ResetIdleLabel()
+{
+	Label1->AutoSize = false;
+	Label1->Width = btnTopmost->Left - Label1->Left * 2;
 }
 
 // ---------------------------------------------------------------------------

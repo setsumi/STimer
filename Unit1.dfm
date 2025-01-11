@@ -26,6 +26,7 @@ object Form1: TForm1
     Top = 131
     Width = 161
     Height = 68
+    AutoSize = False
     Caption = 'Label1'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -33,6 +34,7 @@ object Form1: TForm1
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
+    Transparent = True
     OnClick = Label1Click
     OnContextPopup = FormContextPopup
   end
@@ -85,10 +87,6 @@ object Form1: TForm1
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Seconds'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Edit1: TEdit
         Left = 0
         Top = 3
@@ -123,10 +121,6 @@ object Form1: TForm1
     object TabSheet2: TTabSheet
       Caption = 'Clock'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object DateTimePicker1: TDateTimePicker
         Left = 0
         Top = 3
