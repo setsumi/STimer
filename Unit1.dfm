@@ -92,7 +92,6 @@ object Form1: TForm1
         Top = 3
         Width = 265
         Height = 76
-        Hint = 'F1 - help'
         AutoSelect = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -121,6 +120,10 @@ object Form1: TForm1
     object TabSheet2: TTabSheet
       Caption = 'Clock'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object DateTimePicker1: TDateTimePicker
         Left = 0
         Top = 3

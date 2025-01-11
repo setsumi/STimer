@@ -16,7 +16,7 @@ TForm1 *Form1;
 
 #define IDM_ABOUTBOX 0x0010
 
-const wchar_t *gTitle = L"STimer";
+const wchar_t *gTitle = L"STimer   (F1-help)";
 const wchar_t *gInactive = L"Inactive";
 const wchar_t *gFontFile = L"STimer.ttf";
 const wchar_t *gFontName = L"Symbola";
@@ -258,7 +258,6 @@ void TForm1::Load()
 	btnTopmostClick(NULL);
 	PageControl1->TabIndex = ini->ReadInteger(L"GENERAL", L"Mode", 0);
 	DateTimePicker1->Time = StrToTime(ini->ReadString(L"GENERAL", L"Time", L"00:00:05"));
-    ResetIdleLabel();
 	delete ini;
 }
 
@@ -273,9 +272,8 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 	DateTimePicker1->Format = FormatSettings.LongTimeFormat;
 
 	Caption = gTitle;
+    ResetIdleLabel();
 	Label1->Caption = gInactive;
-	Hint = Edit1->Hint;
-	Label1->Hint = Hint;
 
 	Load();
 
