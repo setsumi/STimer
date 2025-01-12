@@ -16,7 +16,7 @@ TForm1 *Form1;
 
 #define IDM_ABOUTBOX 0x0010
 
-const wchar_t *gTitle = L"STimer   (F1-help)";
+const wchar_t *gTitle = L"STimer      (F1-help)";
 const wchar_t *gInactive = L"Inactive";
 const wchar_t *gFontFile = L"STimer.ttf";
 const wchar_t *gFontName = L"Symbola";
