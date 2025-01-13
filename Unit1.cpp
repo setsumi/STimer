@@ -16,7 +16,7 @@ TForm1 *Form1;
 
 #define IDM_ABOUTBOX 0x0010
 
-const wchar_t *gTitle = L"STimer      (F1-help)";
+const wchar_t *gTitle = L"STimer";
 const wchar_t *gInactive = L"Inactive";
 const wchar_t *gFontFile = L"STimer.ttf";
 const wchar_t *gFontName = L"Symbola";
@@ -381,9 +381,9 @@ void TForm1::ShowHelp()
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::TimerStartupTimer(TObject *Sender)
+void __fastcall TForm1::tmrStartupTimer(TObject *Sender)
 {
-	TimerStartup->Enabled = false;
+	tmrStartup->Enabled = false;
 
 	// command line
 	int argc = ParamCount();
@@ -436,8 +436,11 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shif
 	switch (Key)
 	{
 	case VK_F1: // F1 - help
-		Key = 0;
-		ShowHelp();
+		if (!Shift.Contains(ssShift) && !Shift.Contains(ssAlt) && !Shift.Contains(ssCtrl))
+		{
+			Key = 0;
+			ShowHelp();
+		}
 		break;
 	}
 }

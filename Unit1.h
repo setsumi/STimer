@@ -28,7 +28,8 @@ __published:	// IDE-managed Components
 	TTimer *Timer3;
 	TLabel *lblOverdue;
 	TTimer *tmrOverdue;
-	TTimer *TimerStartup;
+	TTimer *tmrStartup;
+	TEdit *edtHelp;
 	void __fastcall Edit1KeyPress(TObject *Sender, wchar_t &Key);
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall Timer2Timer(TObject *Sender);
@@ -40,7 +41,7 @@ __published:	// IDE-managed Components
 	void __fastcall DateTimePicker1Enter(TObject *Sender);
 	void __fastcall Timer3Timer(TObject *Sender);
 	void __fastcall tmrOverdueTimer(TObject *Sender);
-	void __fastcall TimerStartupTimer(TObject *Sender);
+	void __fastcall tmrStartupTimer(TObject *Sender);
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 
 private:	// User declarations

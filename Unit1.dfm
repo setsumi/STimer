@@ -87,10 +87,6 @@ object Form1: TForm1
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Seconds'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Edit1: TEdit
         Left = 0
         Top = 3
@@ -148,35 +144,55 @@ object Form1: TForm1
       end
     end
   end
+  object edtHelp: TEdit
+    Left = 232
+    Top = 14
+    Width = 61
+    Height = 24
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    BorderStyle = bsNone
+    Color = clBtnFace
+    Enabled = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 1
+    Text = 'F1 - help'
+  end
   object Timer1: TTimer
     Enabled = False
     OnTimer = Timer1Timer
-    Left = 144
-    Top = 8
+    Left = 48
+    Top = 64
   end
   object Timer2: TTimer
     Enabled = False
     OnTimer = Timer2Timer
-    Left = 180
-    Top = 8
+    Left = 84
+    Top = 64
   end
   object Timer3: TTimer
     Enabled = False
     Interval = 1
     OnTimer = Timer3Timer
-    Left = 216
-    Top = 8
+    Left = 120
+    Top = 64
   end
   object tmrOverdue: TTimer
     Enabled = False
     OnTimer = tmrOverdueTimer
-    Left = 196
-    Top = 160
+    Left = 228
+    Top = 64
   end
-  object TimerStartup: TTimer
+  object tmrStartup: TTimer
     Interval = 50
-    OnTimer = TimerStartupTimer
-    Left = 264
-    Top = 8
+    OnTimer = tmrStartupTimer
+    Left = 168
+    Top = 64
   end
 end
