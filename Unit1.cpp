@@ -243,9 +243,10 @@ void TForm1::Save()
 {
 	TIniFile *ini = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
 	ini->WriteInteger(L"GENERAL", L"Interval", UpDown1->Position);
-	ini->WriteInteger(L"GENERAL", L"Topmost", btnTopmost->Down ? 1 : 0);
+	ini->WriteBool(L"GENERAL", L"Topmost", btnTopmost->Down);
 	ini->WriteInteger(L"GENERAL", L"Mode", PageControl1->TabIndex);
 	ini->WriteString(L"GENERAL", L"Time", DateTimePicker1->Time.TimeString());
+	ini->WriteBool(L"GENERAL", L"ShowHelp", edtHelp->Visible);
 	delete ini;
 }
 
@@ -254,10 +255,11 @@ void TForm1::Load()
 {
 	TIniFile *ini = new TIniFile(ChangeFileExt(Application->ExeName, ".ini"));
 	UpDown1->Position = ini->ReadInteger(L"GENERAL", L"Interval", 5);
-	btnTopmost->Down = (ini->ReadInteger(L"GENERAL", L"Topmost", 0) != 0);
+	btnTopmost->Down = ini->ReadBool(L"GENERAL", L"Topmost", false);
 	btnTopmostClick(NULL);
 	PageControl1->TabIndex = ini->ReadInteger(L"GENERAL", L"Mode", 0);
 	DateTimePicker1->Time = StrToTime(ini->ReadString(L"GENERAL", L"Time", L"00:00:05"));
+	edtHelp->Visible = ini->ReadBool(L"GENERAL", L"ShowHelp", true);
 	delete ini;
 }
 
