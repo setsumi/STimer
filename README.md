@@ -26,3 +26,7 @@ Esc                   - minimize app, stop alarm
 Right click           - minimize app
 Click activity label  - start/stop timer, stop alarm
 ```
+
+## `STimer.ini` manual config
+
+`ShowHelp=0` hide help message
