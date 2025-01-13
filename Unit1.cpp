@@ -266,7 +266,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 {
 	HMENU SystemMenu = GetSystemMenu(Handle, False);
 	AppendMenu(SystemMenu, MF_SEPARATOR, 0, NULL);
-	AppendMenu(SystemMenu, MF_STRING, IDM_ABOUTBOX, L"&About…");
+	AppendMenu(SystemMenu, MF_STRING, IDM_ABOUTBOX, L"&About/Help…");
 
 	FormatSettings.LongTimeFormat = L"HH:mm:ss";
 	DateTimePicker1->Format = FormatSettings.LongTimeFormat;
